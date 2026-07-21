@@ -1,0 +1,72 @@
+/* 模仿 antd 4 视觉风格的全局样式 token */
+
+:root {
+  /* 主题色 */
+  --color-primary: #1890ff;
+  --color-primary-hover: #40a9ff;
+  --color-primary-active: #096dd9;
+  --color-success: #52c41a;
+  --color-warning: #faad14;
+  --color-error: #ff4d4f;
+
+  /* 中性色 */
+  --color-text: rgba(0, 0, 0, 0.85);
+  --color-text-secondary: rgba(0, 0, 0, 0.65);
+  --color-text-disabled: rgba(0, 0, 0, 0.25);
+  --color-text-placeholder: rgba(0, 0, 0, 0.25);
+
+  --color-border: #d9d9d9;
+  --color-border-hover: #40a9ff;
+  --color-bg: #ffffff;
+  --color-bg-hover: #f5f5f5;
+  --color-bg-disabled: #f5f5f5;
+
+  /* 尺寸 */
+  --height-base: 32px;
+  --height-lg: 40px;
+  --height-sm: 24px;
+  --radius: 2px;
+  --padding-x: 11px;
+  --font-size: 14px;
+
+  /* 间距 */
+  --gap-sm: 4px;
+  --gap-md: 8px;
+  --gap-lg: 16px;
+}
+
+/* 基础输入框样式（被各组件复用） */
+.fd-input {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 var(--padding-x);
+  font-size: var(--font-size);
+  line-height: 1.5715;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  width: 100%;
+  height: var(--height-base);
+  transition: all 0.3s;
+  outline: none;
+}
+
+.fd-input:hover:not(:disabled) {
+  border-color: var(--color-border-hover);
+}
+
+.fd-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.fd-input:disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-bg-disabled);
+  cursor: not-allowed;
+}
+
+.fd-input::placeholder {
+  color: var(--color-text-placeholder);
+}
