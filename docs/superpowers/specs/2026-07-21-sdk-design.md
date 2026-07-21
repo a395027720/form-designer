@@ -46,7 +46,7 @@
 - **FormRenderer** 组件（无 mode，只渲染 FormTemplate）
 - 公开 TypeScript 类型：`ComponentDef`、`FormTemplate`、`RuleDef`、`RuleAction`
 - 规则引擎（RuleEngine、ExpressionEvaluator、ActionApplier）
-- 内部 antd 基础组件硬编码清单（10 种 antd 组件）
+- 内部自实现 antd 风格 UI 组件库（10 种，详见 §3.4）
 - 校验函数：`isValidComponentDef`、`validateTemplate`
 
 ### 2.2 不进 SDK（保留为 dev demo）
@@ -88,7 +88,7 @@ export interface ComponentDef {
   label: string                               // 显示标签
   required?: boolean
   columns?: number                            // 24 栅格
-  props?: Record<string, any>                 // 透传给 antd 组件的属性
+  props?: Record<string, any>                 // 透传给自实现 UI 组件的属性
   rules?: RuleDef[]
 }
 
@@ -267,19 +267,48 @@ interface FormRendererEmits {
 - 按各 `ComponentDef.type` 渲染 antd 组件
 - **不**渲染单个 `ComponentDef`（即 FormRenderer 永远接收 FormTemplate，不接收单字段）
 
-### 3.4 antd 集成
+### 3.4 自实现 UI 组件库
+
+SDK **不依赖** antd。所有 UI（包括设计器工具 UI 和渲染器业务字段 UI）都由 SDK 内部 `internal/ui` 模块提供，组件样式模仿 antd 视觉风格。
+
+#### 内部 UI 模块暴露的 10 种基础组件
+
+| 组件 | 用于设计器 | 用于渲染器 | 说明 |
+|---|---|---|---|
+| `Input` | ✅ 工具表单输入 | ✅ 字段渲染 | 单行文本 |
+| `Textarea` | ✅ 工具表单输入 | ✅ 字段渲染 | 多行文本 |
+| `InputNumber` | ✅ 工具表单输入 | ✅ 字段渲染 | 数字输入 |
+| `Select` | ✅ 工具表单下拉 | ✅ 字段渲染 | 下拉选择 |
+| `RadioGroup` | ✅ 工具表单单选 | ✅ 字段渲染 | 单选组 |
+| `CheckboxGroup` | ✅ 工具表单多选 | ✅ 字段渲染 | 多选组 |
+| `DatePicker` | ✅ 工具日期选择 | ✅ 字段渲染 | 日期选择 |
+| `TimePicker` | ✅ 工具时间选择 | ✅ 字段渲染 | 时间选择 |
+| `Switch` | ✅ 工具开关 | ✅ 字段渲染 | 开关 |
+| `DisplayText` | ✅ 静态文本 | ✅ 字段渲染 | 只读展示 |
+
+**两类用途说明**：
+- **设计器工具 UI**（左侧组件库、属性面板、规则编辑器等）：SDK 内部直接用自实现 UI 组件搭建
+- **渲染器业务字段**（用户填写的实际表单）：`FormRenderer` 遍历 `tpl.components[]` 时按 `type` 用自实现 UI 组件渲染
+
+#### 设计要点
+
+- **视觉一致**：模仿 antd 4 的颜色、间距、圆角、字号等 token；不需要逐像素一致
+- **API 兼容**：每个组件的 `props` 命名与 antd 对齐（`placeholder`、`maxLength`、`value` 等），方便后续如果想换回 antd 也行
+- **功能范围**：v1 只实现"够用"——校验、格式化、键盘交互等不追求 antd 完整度；只保证 `FormRenderer` 现有功能可跑
+- **a11y / i18n**：暂不做
+
+#### 不再需要 antd
 
 ```json
 // package.json
 {
   "peerDependencies": {
-    "vue": "^3.5.0",
-    "ant-design-vue": "^4.0.0"
+    "vue": "^3.5.0"
   }
 }
 ```
 
-SDK 包**不打包** antd。消费者必须自行安装匹配版本的 antd + Vue。
+消费者**只装 Vue**，不需要装 antd。SDK 包自包含。
 
 ---
 
@@ -434,7 +463,20 @@ src/
 │   │   ├── ExpressionEvaluator.ts
 │   │   └── ActionApplier.ts
 │   ├── internal/
-│   │   ├── basicComponents.ts   # antd 10 种基础组件硬编码
+│   │   ├── ui/                  # ★ 自实现 antd 风格 UI 组件库
+│   │   │   ├── Input.vue
+│   │   │   ├── Textarea.vue
+│   │   │   ├── InputNumber.vue
+│   │   │   ├── Select.vue
+│   │   │   ├── RadioGroup.vue
+│   │   │   ├── CheckboxGroup.vue
+│   │   │   ├── DatePicker.vue
+│   │   │   ├── TimePicker.vue
+│   │   │   ├── Switch.vue
+│   │   │   ├── DisplayText.vue
+│   │   │   ├── styles.css       # 模仿 antd 视觉的全局样式
+│   │   │   └── index.ts         # 统一导出
+│   │   ├── basicComponents.ts   # 10 种基础组件元数据
 │   │   ├── canvas/              # FieldPreview、CanvasItem
 │   │   ├── property/            # PropertyPanel
 │   │   ├── rules/               # 5 个 RuleEditor
@@ -469,7 +511,7 @@ export default defineConfig(({ mode }) => {
           formats: ['es', 'umd']
         },
         rollupOptions: {
-          external: ['vue', 'ant-design-vue', '@ant-design/icons-vue']
+          external: ['vue']
         }
       }
     }
@@ -514,7 +556,7 @@ export { isValidComponentDef, validateTemplate } from './internal/validate'
 2. **模板无版本管理**
 3. **FormTemplate 不再含 `layout` 字段**：现有项目删掉
 4. **localStorage / 模拟后端**不打包：消费者自己接 API
-5. **i18n 不做**：文案走 antd 默认（中文）
+5. **i18n 不做**：文案写中文（自实现 UI 组件内部用）
 6. **E2E 测试不做**
 7. **没有 ref 引用机制**：所有 FormTemplate.components[] 都是 inline ComponentDef
 
@@ -537,7 +579,7 @@ export { isValidComponentDef, validateTemplate } from './internal/validate'
 | 7 | ref 引用机制 | **没有**——所有 FormTemplate.components[] 都是 inline |
 | 8 | 小项目清单传递 | 单一 prop：`components`（presets 模式用） |
 | 9 | 基础组件来源 | SDK 内部硬编码，consumer 不传 |
-| 10 | antd 集成 | peerDep，SDK 不打包 antd |
+| 10 | UI 组件 | SDK **自实现** antd 风格 UI 组件库（10 种），不依赖 antd |
 | 11 | 现有 demo | 保留为 dev demo，npm 不暴露 |
 | 12 | 保存动作 | SDK emit 事件，consumer 调后端 |
 | 13 | FormTemplate 字段 | 只剩 `id + components (+可选 version / metadata)`，删除 `layout` |
