@@ -11,6 +11,24 @@ html, body, #app {
   box-sizing: border-box;
 }
 
+/**
+ * 全局 CSS 变量定义（统一页面、Header / Footer 的视觉基线）
+ * - --color-bg           浅灰底色（页面整体背景）
+ * - --color-bg-elevated  白底（头部 / 底部 footer / 卡片）
+ * - --color-border       全局分隔线
+ * - --color-text         主文字色
+ * - --color-text-secondary 次文字色
+ * - --color-primary      主题蓝
+ */
+:root {
+  --color-bg: #f5f7fa;
+  --color-bg-elevated: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-primary: #1677ff;
+}
+
 .app-page {
   min-height: 100vh;
   display: flex;
@@ -18,13 +36,13 @@ html, body, #app {
 }
 
 .page-header {
-  background: #fff;
+  background: var(--color-bg-elevated);
   padding: 0 24px;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .page-header h1 {

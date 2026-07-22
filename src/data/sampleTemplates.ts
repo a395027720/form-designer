@@ -1,19 +1,15 @@
 /**
  * 内置演示模板：血常规、肝功能
- * 首次访问时注入到 localStorage
+ * 由 templateApi 在首次调用时同步注入到内存（替代旧的 localStorage 注入）
  */
-import type { FormTemplate } from '@/types/template'
+import type { FormTemplate } from '@/components/form-designer'
 
 export function sampleTemplates(): FormTemplate[] {
-  const now = new Date().toISOString()
   return [
     {
-      version: '1.0.0',
       id: 'tmpl_blood_routine_demo',
       name: '血常规检查报告',
-      category: '血液检查',
       description: '演示阈值分级（白细胞）+ 计算规则（平均红细胞体积 = 红细胞压积 / 红细胞计数）',
-      layout: { type: 'form' },
       components: [
         {
           id: 'comp_name',
@@ -113,17 +109,12 @@ export function sampleTemplates(): FormTemplate[] {
             }
           ]
         }
-      ],
-      createdAt: now,
-      updatedAt: now
+      ]
     },
     {
-      version: '1.0.0',
       id: 'tmpl_liver_demo',
       name: '肝功能检查报告',
-      category: '肝功能',
       description: '演示条件显隐（女性显示妊娠相关胆红素）+ 校验规则（数值范围）',
-      layout: { type: 'form' },
       components: [
         {
           id: 'liver_name',
@@ -233,15 +224,13 @@ export function sampleTemplates(): FormTemplate[] {
                   left: '$.components.liver_gender.value',
                   right: { type: 'constant', value: 'female' }
                 },
-                then: { type: 'show', target: '$.components.liver_preg' },
-                else: { type: 'hidden', target: '$.components.liver_preg' }
+                then: [{ type: 'show', target: '$.components.liver_preg' }],
+                else: [{ type: 'hidden', target: '$.components.liver_preg' }]
               }
             }
           ]
         }
-      ],
-      createdAt: now,
-      updatedAt: now
+      ]
     }
   ]
 }

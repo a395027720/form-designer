@@ -1,4 +1,4 @@
-import type { ComponentType } from './template'
+import type { BasicComponentType as ComponentType } from '@/components/form-designer'
 
 /** 组件库分组 */
 export interface ComponentLibraryItem {
@@ -34,7 +34,7 @@ export const COMPONENT_LIBRARY: ComponentLibraryItem[] = [
     group: '基础输入',
     description: '数字输入（医学检查项常用）',
     icon: '🔢',
-    defaultProps: { min: 0, max: 9999, precision: 2, placeholder: '请输入数值' }
+    defaultProps: { placeholder: '请输入数值' }
   },
   {
     type: 'Select',
@@ -101,6 +101,19 @@ export const COMPONENT_LIBRARY: ComponentLibraryItem[] = [
     group: '特殊',
     description: '展示计算结果或常量',
     icon: '👁️'
+  },
+  {
+    type: 'Upload',
+    label: '文件上传',
+    group: '特殊',
+    description: '支持图片、文件上传及预览',
+    icon: '📎',
+    defaultProps: {
+      accept: 'image/*',
+      maxCount: 5,
+      listType: 'picture-card',
+      maxSize: 10
+    }
   }
 ]
 

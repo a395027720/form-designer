@@ -6,13 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "preview": "vite preview"
   },
   "dependencies": {
     "ant-design-vue": "^4.2.5",
-    "pinia": "^2.2.6",
     "sortablejs": "^1.15.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
@@ -20,12 +17,9 @@
   "devDependencies": {
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/test-utils": "^2.4.11",
     "@vue/tsconfig": "^0.7.0",
-    "jsdom": "^29.1.1",
     "typescript": "~5.6.3",
     "vite": "^6.0.5",
-    "vitest": "^4.1.10",
     "vue-tsc": "^2.2.0"
   }
 }
