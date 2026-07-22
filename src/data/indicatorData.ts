@@ -15,15 +15,15 @@ export interface IndicatorRecord {
   indicatorUnit: string;
   indicatorAbbr: string;
   indicatorReferenceVal: string;
-  inputMaxVal: number | null;
-  inputMinVal: number | null;
-  fieldEnumJson: string | null;
-  fieldLength: number | null;
+  inputMaxVal: string | number;
+  inputMinVal: string | number;
+  fieldEnumJson: string;
+  fieldLength: string | number;
   /** 前端组件 JSON 串 */
   fieldComponentFrontJson: string;
   indicatorCustomCategoryLabel: string;
-  fieldValExpress: string | null;
-  fieldValPrecision: number | null;
+  fieldValExpress: string;
+  fieldValPrecision: string | number;
 }
 
 /** 业务侧 mapping：IndicatorRecord 平铺字段 → ComponentDef.props 键 */
@@ -91,14 +91,14 @@ export function toIndicatorRecord(
     indicatorUnit: def.unit ?? '',
     indicatorAbbr: '',
     indicatorReferenceVal: '',
-    inputMaxVal: flat.inputMaxVal ?? null,
-    inputMinVal: flat.inputMinVal ?? null,
-    fieldEnumJson: def.options?.length ? JSON.stringify(def.options) : null,
-    fieldLength: flat.fieldLength ?? null,
+    inputMaxVal: flat.inputMaxVal ?? '',
+    inputMinVal: flat.inputMinVal ?? '',
+    fieldEnumJson: def.options?.length ? JSON.stringify(def.options) : '',
+    fieldLength: flat.fieldLength ?? '',
     fieldComponentFrontJson: serializeComponentJson(def),
     indicatorCustomCategoryLabel: flat.indicatorCustomCategoryLabel ?? '',
-    fieldValExpress,
-    fieldValPrecision: flat.fieldValPrecision ?? null
+    fieldValExpress: fieldValExpress ?? '',
+    fieldValPrecision: flat.fieldValPrecision ?? ''
   }
 }
 
@@ -114,9 +114,9 @@ export const demoFields: IndicatorRecord[] = [
     indicatorUnit: "",
     indicatorAbbr: "",
     indicatorReferenceVal: "",
-    inputMaxVal: null,
-    inputMinVal: null,
-    fieldEnumJson: null,
+    inputMaxVal: "",
+    inputMinVal: "",
+    fieldEnumJson: "",
     fieldLength: 50,
     fieldComponentFrontJson: JSON.stringify({
       id: "1001",
@@ -127,8 +127,8 @@ export const demoFields: IndicatorRecord[] = [
       props: { placeholder: "请输入姓名", maxLength: 50 },
     }),
     indicatorCustomCategoryLabel: "基础信息",
-    fieldValExpress: null,
-    fieldValPrecision: null,
+    fieldValExpress: "",
+    fieldValPrecision: "",
   },
   {
     indicatorId: "1002",
@@ -140,13 +140,13 @@ export const demoFields: IndicatorRecord[] = [
     indicatorUnit: "",
     indicatorAbbr: "",
     indicatorReferenceVal: "",
-    inputMaxVal: null,
-    inputMinVal: null,
+    inputMaxVal: "",
+    inputMinVal: "",
     fieldEnumJson: JSON.stringify([
       { label: "男", value: "male" },
       { label: "女", value: "female" },
     ]),
-    fieldLength: null,
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "1002",
       type: "RadioGroup",
@@ -159,8 +159,8 @@ export const demoFields: IndicatorRecord[] = [
       ],
     }),
     indicatorCustomCategoryLabel: "基础信息",
-    fieldValExpress: null,
-    fieldValPrecision: null,
+    fieldValExpress: "",
+    fieldValPrecision: "",
   },
   {
     indicatorId: "1003",
@@ -174,8 +174,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "",
     inputMaxVal: 150,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "1003",
       type: "InputNumber",
@@ -186,7 +186,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 150, precision: 0, placeholder: "请输入年龄" },
     }),
     indicatorCustomCategoryLabel: "基础信息",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 0,
   },
   {
@@ -199,10 +199,10 @@ export const demoFields: IndicatorRecord[] = [
     indicatorUnit: "",
     indicatorAbbr: "",
     indicatorReferenceVal: "",
-    inputMaxVal: null,
-    inputMinVal: null,
-    fieldEnumJson: null,
-    fieldLength: null,
+    inputMaxVal: "",
+    inputMinVal: "",
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "1004",
       type: "DatePicker",
@@ -212,8 +212,8 @@ export const demoFields: IndicatorRecord[] = [
       props: { placeholder: "请选择日期" },
     }),
     indicatorCustomCategoryLabel: "基础信息",
-    fieldValExpress: null,
-    fieldValPrecision: null,
+    fieldValExpress: "",
+    fieldValPrecision: "",
   },
 
   // ----- 血液检查 -----
@@ -229,8 +229,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "4.0-10.0",
     inputMaxVal: 100,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "2001",
       type: "InputNumber",
@@ -278,7 +278,7 @@ export const demoFields: IndicatorRecord[] = [
       ],
     }),
     indicatorCustomCategoryLabel: "血液检查",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 2,
   },
   {
@@ -293,8 +293,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "3.5-5.5",
     inputMaxVal: 20,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "2002",
       type: "InputNumber",
@@ -305,7 +305,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 20, precision: 2, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "血液检查",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 2,
   },
   {
@@ -320,8 +320,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "120-160",
     inputMaxVal: 300,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "2003",
       type: "InputNumber",
@@ -332,7 +332,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 300, precision: 1, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "血液检查",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 1,
   },
   {
@@ -347,8 +347,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "100-300",
     inputMaxVal: 1000,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "2004",
       type: "InputNumber",
@@ -359,7 +359,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 1000, precision: 1, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "血液检查",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 1,
   },
   {
@@ -374,8 +374,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "35-50",
     inputMaxVal: 100,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "2005",
       type: "InputNumber",
@@ -385,7 +385,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 100, precision: 2, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "血液检查",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 2,
   },
 
@@ -402,8 +402,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "0-17.1",
     inputMaxVal: 500,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "3001",
       type: "InputNumber",
@@ -451,7 +451,7 @@ export const demoFields: IndicatorRecord[] = [
       ],
     }),
     indicatorCustomCategoryLabel: "肝功能",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 2,
   },
   {
@@ -466,8 +466,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "0-6.8",
     inputMaxVal: 200,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "3002",
       type: "InputNumber",
@@ -477,7 +477,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 200, precision: 2, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "肝功能",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 2,
   },
   {
@@ -492,8 +492,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "0-40",
     inputMaxVal: 5000,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "3003",
       type: "InputNumber",
@@ -503,7 +503,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 5000, precision: 1, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "肝功能",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 1,
   },
   {
@@ -518,8 +518,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "0-40",
     inputMaxVal: 5000,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "3004",
       type: "InputNumber",
@@ -529,7 +529,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 5000, precision: 1, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "肝功能",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 1,
   },
   {
@@ -544,8 +544,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "60-80",
     inputMaxVal: 200,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "3005",
       type: "InputNumber",
@@ -555,7 +555,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 200, precision: 1, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "肝功能",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 1,
   },
   {
@@ -570,8 +570,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorReferenceVal: "35-55",
     inputMaxVal: 100,
     inputMinVal: 0,
-    fieldEnumJson: null,
-    fieldLength: null,
+    fieldEnumJson: "",
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "3006",
       type: "InputNumber",
@@ -581,7 +581,7 @@ export const demoFields: IndicatorRecord[] = [
       props: { min: 0, max: 100, precision: 1, placeholder: "请输入" },
     }),
     indicatorCustomCategoryLabel: "肝功能",
-    fieldValExpress: null,
+    fieldValExpress: "",
     fieldValPrecision: 1,
   },
 
@@ -596,8 +596,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorUnit: "",
     indicatorAbbr: "",
     indicatorReferenceVal: "",
-    inputMaxVal: null,
-    inputMinVal: null,
+    inputMaxVal: "",
+    inputMinVal: "",
     fieldEnumJson: JSON.stringify([
       { label: "静脉血", value: "venous_blood" },
       { label: "末梢血", value: "capillary_blood" },
@@ -605,7 +605,7 @@ export const demoFields: IndicatorRecord[] = [
       { label: "尿液", value: "urine" },
       { label: "粪便", value: "stool" },
     ]),
-    fieldLength: null,
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "4001",
       type: "Select",
@@ -621,8 +621,8 @@ export const demoFields: IndicatorRecord[] = [
       props: { placeholder: "请选择标本类型" },
     }),
     indicatorCustomCategoryLabel: "其他",
-    fieldValExpress: null,
-    fieldValPrecision: null,
+    fieldValExpress: "",
+    fieldValPrecision: "",
   },
   {
     indicatorId: "4002",
@@ -634,8 +634,8 @@ export const demoFields: IndicatorRecord[] = [
     indicatorUnit: "",
     indicatorAbbr: "",
     indicatorReferenceVal: "",
-    inputMaxVal: null,
-    inputMinVal: null,
+    inputMaxVal: "",
+    inputMinVal: "",
     fieldEnumJson: JSON.stringify([
       { label: "已申请", value: "applied" },
       { label: "已采样", value: "sampled" },
@@ -643,7 +643,7 @@ export const demoFields: IndicatorRecord[] = [
       { label: "已完成", value: "completed" },
       { label: "已审核", value: "reviewed" },
     ]),
-    fieldLength: null,
+    fieldLength: "",
     fieldComponentFrontJson: JSON.stringify({
       id: "4002",
       type: "Select",
@@ -659,8 +659,8 @@ export const demoFields: IndicatorRecord[] = [
       props: { placeholder: "请选择状态" },
     }),
     indicatorCustomCategoryLabel: "其他",
-    fieldValExpress: null,
-    fieldValPrecision: null,
+    fieldValExpress: "",
+    fieldValPrecision: "",
   },
   {
     indicatorId: "4003",
@@ -672,9 +672,9 @@ export const demoFields: IndicatorRecord[] = [
     indicatorUnit: "",
     indicatorAbbr: "",
     indicatorReferenceVal: "",
-    inputMaxVal: null,
-    inputMinVal: null,
-    fieldEnumJson: null,
+    inputMaxVal: "",
+    inputMinVal: "",
+    fieldEnumJson: "",
     fieldLength: 500,
     fieldComponentFrontJson: JSON.stringify({
       id: "4003",
@@ -689,8 +689,8 @@ export const demoFields: IndicatorRecord[] = [
       },
     }),
     indicatorCustomCategoryLabel: "其他",
-    fieldValExpress: null,
-    fieldValPrecision: null,
+    fieldValExpress: "",
+    fieldValPrecision: "",
   },
 ];
 
@@ -773,7 +773,7 @@ demoFields.forEach(f => {
     try {
       const def: ComponentDef = JSON.parse(f.fieldComponentFrontJson)
       if (def.rules?.length) {
-        f.fieldValExpress = serializeRuleExpress(def.rules)
+        f.fieldValExpress = serializeRuleExpress(def.rules) ?? ''
       }
     } catch { /* JSON 解析失败则保持原值 */ }
   }

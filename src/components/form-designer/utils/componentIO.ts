@@ -106,7 +106,7 @@ export function injectProps(
   const props = { ...(def.props ?? {}) }
   for (const [srcKey, targetKey] of Object.entries(mapping)) {
     const v = source[srcKey]
-    if (v != null) {
+    if (v != null && v !== '') {
       ;(props as Record<string, any>)[targetKey] = v
     }
   }
